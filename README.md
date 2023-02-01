@@ -1,5 +1,5 @@
 # chatgpt-telegram-bot
-OpenAI ChatGPT telegram bot written in Go
+Simple OpenAI ChatGPT telegram bot written in Go
 
 
 ## Commands
