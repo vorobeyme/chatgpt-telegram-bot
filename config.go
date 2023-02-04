@@ -1,19 +1,31 @@
 package bot
 
-// Telegram constants
-const (
-	// APIEndpoint is the endpoint for all API methods,
-	// with formatting for Sprintf.
-	APIEndpoint = "https://api.telegram.org/bot%s/%s"
-)
+type Config struct {
+	Debug bool `yaml:"debug" env:"DEBUG"`
 
-// API errors
-const (
-	// ErrAPIForbidden happens when a token is bad
-	ErrAPIForbidden = "forbidden"
-)
+	Telegram TelegramConfig `yaml:"telegram"`
+	ChatGPT  ChatGPTConfig  `yaml:"chatGPT"`
+}
 
-// Library errors
-const (
-	ErrBadURL = "bad or empty url"
-)
+type TelegramConfig struct {
+	Token string `env:"TELEGRAM_TOKEN"`
+
+	ReplyToMessage bool `yaml:"reply_to_message"`
+}
+
+type ChatGPTConfig struct {
+	Token string `env:"CHATGPT_TOKEN"`
+
+	Model            string  `yaml:"model"`
+	MaxTokens        int     `yaml:"max_tokens"`
+	Temperature      float64 `yaml:"temperature"`
+	TopP             int     `yaml:"top_p"`
+	FrequencyPenalty float64 `yaml:"frequency_penalty"`
+	PresencePenalty  float64 `yaml:"presence_penalty"`
+}
+
+func NewConfig() (*Config, error) {
+	var config *Config
+
+	return config, nil
+}
