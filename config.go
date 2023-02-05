@@ -43,7 +43,7 @@ func NewConfig() (*Config, error) {
 }
 
 func parseConfig(cfg *Config) error {
-	data, err := ioutil.ReadFile("config.yaml")
+	data, err := ioutil.ReadFile("config.yml")
 	if err != nil {
 		return fmt.Errorf("error reading .yaml file")
 	}
