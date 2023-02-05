@@ -59,4 +59,3 @@ func parseConfig(cfg *Config) error {
 
 	return nil
 }
-expand env variables in yaml file
