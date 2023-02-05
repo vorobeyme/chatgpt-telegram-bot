@@ -1,12 +1,12 @@
-debug: false
+debug: ${APP_DEBUG}
 
 telegram:
-  token: ""
+  token: ${TELEGRAM_TOKEN}
   replyToMessage: false
 
 # ChatGPT engine configurations
 chatGPT:
-  apiKey: ""
+  apiKey: ${OPENAI_API_KEY}
   # ID of the model to use.
   # You can use the List models API (https://platform.openai.com/docs/api-reference/models/list) to see all of your available models,
   # or see Model overview (https://platform.openai.com/docs/models/overview) for descriptions of them.

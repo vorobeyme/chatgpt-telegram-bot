@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strconv"
 
 	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
@@ -12,20 +11,20 @@ import (
 
 // Config represents structure that hold the YAML data
 type Config struct {
-	Debug    bool           `yaml:"debug" env:"APP_DEBUG"`
+	Debug    bool           `yaml:"debug"`
 	Telegram TelegramConfig `yaml:"telegram"`
 	ChatGPT  ChatGPTConfig  `yaml:"chatGPT"`
 }
 
 // TelegramConfig represents telegram configurations.
 type TelegramConfig struct {
-	Token          string
-	ReplyToMessage bool `yaml:"reply_to_message"`
+	Token          string `yaml:"token"`
+	ReplyToMessage bool   `yaml:"reply_to_message"`
 }
 
 // ChatGPTConfig represents ChatGPT configurations.
 type ChatGPTConfig struct {
-	APIKey           string
+	APIKey           string  `yaml:"apiKey"`
 	Model            string  `yaml:"model"`
 	MaxTokens        int     `yaml:"maxTokens"`
 	Temperature      float64 `yaml:"temperature"`
@@ -48,19 +47,16 @@ func parseConfig(cfg *Config) error {
 		return fmt.Errorf("error reading .yaml file")
 	}
 
-	err = yaml.Unmarshal(data, &cfg)
-	if err != nil {
-		return fmt.Errorf("error parsing .yaml file")
-	}
-
-	err = godotenv.Load()
-	if err != nil {
+	if err := godotenv.Load(); err != nil {
 		return fmt.Errorf("error reading .env file")
 	}
 
-	cfg.Debug, _ = strconv.ParseBool(os.Getenv("APP_DEBUG"))
-	cfg.Telegram.Token = os.Getenv("TELEGRAM_TOKEN")
-	cfg.ChatGPT.APIKey = os.Getenv("OPENAI_API_KEY")
+	data = []byte(os.ExpandEnv(string(data)))
+
+	if err := yaml.Unmarshal(data, &cfg); err != nil {
+		return fmt.Errorf("error parsing .yaml file")
+	}
 
 	return nil
 }
+expand env variables in yaml file
