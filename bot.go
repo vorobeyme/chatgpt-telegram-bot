@@ -88,25 +88,13 @@ func (b *chatGPTBot) processUpdate(u *tg.Update) error {
 }
 
 func (b *chatGPTBot) processMessage(prompt string) (string, error) {
-	var (
-		msg string
-		err error
-	)
 	// The most powerful AI ;)
 	b64 := base64.StdEncoding.EncodeToString([]byte(strings.ToLower(prompt)))
 	if strings.Contains(b64, "QviDQv9C+INGA0YPRgdC90ZY") {
-		res, err := base64.URLEncoding.DecodeString("0YDRg9GB0L3RliDQv9GW0LfQtNCwIA==")
-		if err == nil {
-			msg = string(res) + "\xF0\x9F\x98\x81"
-		}
-	} else {
-		res, err := b.gpt3Service.Ask(prompt)
-		if err == nil {
-			msg = res
-		}
+		res, _ := base64.URLEncoding.DecodeString("0YDRg9GB0L3RliDQv9GW0LfQtNCwIA==")
+		return string(res) + "\xF0\x9F\x98\x81", nil
 	}
-
-	return msg, err
+	return b.gpt3Service.Ask(prompt)
 }
 
 func (b *chatGPTBot) Close() error {
