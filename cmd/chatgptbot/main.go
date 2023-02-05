@@ -7,13 +7,14 @@ import (
 )
 
 func main() {
-	var config = &bot.Config{}
-	config.Telegram.Token = "tgToken"
-	config.ChatGPT.Token = "chatgptToken"
+	config, err := bot.NewConfig()
+	if err != nil {
+		log.Fatalf("[ERROR] configuration file: %v", err)
+	}
 
 	bot, err := bot.NewChatGPTBot(config)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("[ERROR] telegram API - an authentication error occurs: %v", err)
 	}
 	defer bot.Close()
 

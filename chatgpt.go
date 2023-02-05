@@ -7,8 +7,6 @@ import (
 	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
-var ctx = context.Background()
-
 type chatGPTService struct {
 	gpt3   *gogpt.Client
 	config *ChatGPTConfig
@@ -26,7 +24,7 @@ type chatgptOptions struct {
 // NewChatGPTService returns a new service instance.
 func NewChatGPTService(cfg *ChatGPTConfig) *chatGPTService {
 	return &chatGPTService{
-		gpt3:   gogpt.NewClient(cfg.Token),
+		gpt3:   gogpt.NewClient(cfg.APIKey),
 		config: cfg,
 	}
 }
@@ -37,7 +35,7 @@ func (c *chatGPTService) Ask(prompt string) (string, error) {
 		MaxTokens: 100,
 		Prompt:    prompt,
 	}
-	res, err := c.gpt3.CreateCompletion(ctx, req)
+	res, err := c.gpt3.CreateCompletion(context.Background(), req)
 	if err != nil {
 		return "", err
 	}
