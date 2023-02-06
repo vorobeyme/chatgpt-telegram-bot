@@ -18,7 +18,7 @@ const (
 type chatGPTBot struct {
 	bot         *tg.BotAPI
 	config      *TelegramConfig
-	gpt3Service *chatGPTService
+	gpt3Service *gpt3Service
 }
 
 func NewChatGPTBot(cfg *Config) (*chatGPTBot, error) {
@@ -31,7 +31,7 @@ func NewChatGPTBot(cfg *Config) (*chatGPTBot, error) {
 	gptBot := &chatGPTBot{
 		bot:         bot,
 		config:      &cfg.Telegram,
-		gpt3Service: NewChatGPTService(&cfg.ChatGPT),
+		gpt3Service: NewGPT3Service(&cfg.ChatGPT),
 	}
 
 	return gptBot, nil
